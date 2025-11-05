@@ -616,6 +616,7 @@ def _build_checks(
     smp_value,
     model_only,
     buildlist,
+    skip_preview_namelist,
 ):
     ###############################################################################
     """
@@ -709,7 +710,7 @@ ERROR env_build HAS CHANGED
     case.create_dirs()
 
     case.flush()
-    if not model_only and not buildlist:
+    if not model_only and not buildlist and not skip_preview_namelist:
         logger.info("Generating component namelists as part of build")
         case.create_namelists()
 
@@ -1052,6 +1053,7 @@ def _case_build_impl(
     separate_builds,
     ninja,
     dry_run,
+    skip_preview_namelist,
 ):
     ###############################################################################
     t1 = time.time()
@@ -1203,6 +1205,7 @@ def _case_build_impl(
             smp_value,
             model_only,
             buildlist,
+            skip_preview_namelist,
         )
 
         if not model_only:
@@ -1314,6 +1317,7 @@ def case_build(
     separate_builds=False,
     ninja=False,
     dry_run=False,
+    skip_preview_namelist=False,
 ):
     ###############################################################################
     functor = lambda: _case_build_impl(
@@ -1326,6 +1330,7 @@ def case_build(
         separate_builds,
         ninja,
         dry_run,
+        skip_preview_namelist,
     )
     cb = "case.build"
     if sharedlib_only == True:
