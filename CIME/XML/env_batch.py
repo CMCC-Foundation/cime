@@ -901,6 +901,10 @@ class EnvBatch(EnvBase):
                 return '{} "all, ARGS_FOR_SCRIPT={}"'.format(
                     batch_env_flag, run_args_str
                 )
+            elif batch_system == "slurm":
+                return '{} all,ARGS_FOR_SCRIPT={}'.format(
+                    batch_env_flag, run_args_str
+                )
             else:
                 return "{} ARGS_FOR_SCRIPT='{}'".format(batch_env_flag, run_args_str)
         else:

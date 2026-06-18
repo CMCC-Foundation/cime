@@ -345,7 +345,7 @@ def _archive_history_files(
                         _get_archive_fn_desc(archive_file_fn), srcfile, destfile
                     )
                 )
-                archive_file_fn(srcfile, destfile)
+                safe_copy(srcfile, destfile)
 
     # determine ninst and ninst_string
 
