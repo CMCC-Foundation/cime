@@ -1785,9 +1785,9 @@ directory, NOT in this subdirectory."""
 
         # Create relevant directories in $self._caseroot
         if clone:
-            newdirs = (LOCKED_DIR, "Tools")
+            newdirs = (LOCKED_DIR, "logs", "Tools")
         else:
-            newdirs = ("SourceMods", LOCKED_DIR, "Buildconf", "Tools")
+            newdirs = ("SourceMods", LOCKED_DIR, "Buildconf", "logs", "Tools")
         for newdir in newdirs:
             os.makedirs(newdir)
 
