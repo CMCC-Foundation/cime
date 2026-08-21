@@ -2430,6 +2430,8 @@ def run_and_log_case_status(
     # present since we don't have the jobid yet
     if phase != "case.submit" or not is_batch:
         append_case_status(phase, "starting", msg=starting_msg, caseroot=caseroot)
+    if phase == 'model execution':
+        tic = time.time()
     rv = None
     try:
         rv = func()
@@ -2456,6 +2458,14 @@ def run_and_log_case_status(
             append_case_status(
                 phase, "starting", msg=custom_success_msg, caseroot=caseroot
             )
+
+        if phase == 'model execution':
+            elapsed = " (%.2f mins)" % ((time.time() - tic) * (1. / 60.))
+            if custom_success_msg is None:
+                custom_success_msg  = elapsed
+            else:
+                custom_success_msg = custom_success_msg + elapsed
+
         append_case_status(
             phase, CASE_SUCCESS, msg=custom_success_msg, caseroot=caseroot
         )
