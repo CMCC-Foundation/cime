@@ -1717,6 +1717,22 @@ class Case(object):
             except Exception as e:
                 logger.warning("FAILED to set up exefiles: {}".format(str(e)))
 
+        # add cmcc long term archiving scripts
+        ltarchive_dir = os.path.join(self.get_value("SRCROOT"), "cmcc", "lt_archive")
+        if os.path.exists(ltarchive_dir):
+            toolfile = "case.lt_archive"
+            safe_copy(
+                os.path.join(ltarchive_dir, toolfile),
+                os.path.join(self._caseroot, toolfile)
+            )
+            toolfiles = os.listdir(os.path.join(ltarchive_dir, "scripts"))
+            for toolfile in toolfiles:
+                safe_copy(
+                    os.path.join(os.path.join(ltarchive_dir, "scripts"), toolfile),
+                    os.path.join(casetools, toolfile)
+                )
+
+
     def _create_caseroot_sourcemods(self):
         components = self.get_compset_components()
         components.extend(["share", "drv"])
