@@ -502,7 +502,7 @@ def _main_func(description):
                 elif value:
                     if cnt > 0:
                         sys.stdout.write(",")
-                    sys.stdout.write("{}".format(results[group][var]["value"]))
+                    sys.stdout.write("{}\n".format(results[group][var]["value"]))
                     cnt += 1
                 elif description:
                     if results[group][var]["desc"][0] is not None:
