@@ -169,7 +169,7 @@ def _run_model_impl(case, lid, skip_pnl=False, da_cycle=0):
             run_and_log_case_status(
                 run_func,
                 "model execution",
-                custom_starting_msg_functor=msg_func,
+                custom_starting_msg_functor= lambda: msg_func() + " ({})".format(case.get_value("RUN_CURDATE")),
                 custom_success_msg_functor=msg_func,
                 caseroot=case.get_value("CASEROOT"),
                 is_batch=is_batch,
