@@ -1082,6 +1082,11 @@ def case_st_archive(
 
     logger.info("st_archive completed")
 
+    # launch long term archiving if appropriate
+    if self.get_value("DOUT_L") and not self.get_value("NEMO_REBUILD"):
+        logger.info("Submit long term archiving job")
+        run_cmd("./case.lt_archive", verbose=True,)
+
     # resubmit case if appropriate
     if not self.get_value("EXTERNAL_WORKFLOW") and resubmit:
         resubmit_cnt = self.get_value("RESUBMIT")
