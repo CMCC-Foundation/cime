@@ -166,6 +166,15 @@ manual edits to these file will be lost!
                 with open(".original_host", "w") as fd:
                     fd.write(socket.gethostname())
 
+    # update run current date
+    run_curdate = case.get_value("RUN_REFDATE")
+    cpl_pointer = case.get_value("RUNDIR") + "/rpointer.cpl"
+    print('tom ' + run_curdate + ' ' + ' ' + cpl_pointer  )
+    if ( os.path.exists(cpl_pointer) and case.get_value("CONTINUE_RUN")):
+       run_curdate = open(cpl_pointer).read()
+       run_curdate = "-".join(run_curdate.split(".")[-2].split("-")[:3])
+    case.set_value("RUN_CURDATE", run_curdate)
+
     # Load Modules
     case.load_env()
 
