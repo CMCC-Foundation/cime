@@ -2428,7 +2428,7 @@ def run_and_log_case_status(
 
     # Delay appending "starting" on "case.subsmit" phase when batch system is
     # present since we don't have the jobid yet
-    if phase != "case.submit" or not is_batch:
+    if phase not in ["case.submit", "case.run", "st_archive"] or not is_batch:
         append_case_status(phase, "starting", msg=starting_msg, caseroot=caseroot)
     if phase == 'model execution':
         tic = time.time()
@@ -2441,10 +2441,10 @@ def run_and_log_case_status(
             if custom_success_msg_functor and rv is not None
             else None
         )
-        if phase == "case.submit" and is_batch:
-            append_case_status(
-                phase, "starting", msg=custom_success_msg, caseroot=caseroot
-            )
+        #if phase == "case.submit" and is_batch:
+        #    append_case_status(
+        #        phase, "starting", msg=custom_success_msg, caseroot=caseroot
+        #    )
         e = sys.exc_info()[1]
         append_case_status(
             phase, CASE_FAILURE, msg=("\n{}".format(e)), caseroot=caseroot
@@ -2454,10 +2454,10 @@ def run_and_log_case_status(
         custom_success_msg = (
             custom_success_msg_functor(rv) if custom_success_msg_functor else None
         )
-        if phase == "case.submit" and is_batch:
-            append_case_status(
-                phase, "starting", msg=custom_success_msg, caseroot=caseroot
-            )
+        #if phase == "case.submit" and is_batch:
+        #    append_case_status(
+        #        phase, "starting", msg=custom_success_msg, caseroot=caseroot
+        #    )
 
         if phase == 'model execution':
             elapsed = " (%.2f mins)" % ((time.time() - tic) * (1. / 60.))
@@ -2466,9 +2466,10 @@ def run_and_log_case_status(
             else:
                 custom_success_msg = custom_success_msg + elapsed
 
-        append_case_status(
-            phase, CASE_SUCCESS, msg=custom_success_msg, caseroot=caseroot
-        )
+        if phase not in ["case.submit", "case.run"]:
+            append_case_status(
+                phase, CASE_SUCCESS, msg=custom_success_msg, caseroot=caseroot
+            )
 
     return rv
 
